@@ -35,6 +35,7 @@ interface MaterialOP {
 
 interface ItemOP {
   id: string;
+  ordem?: number | null;
   descricao: string;
   quantidade: number;
   medidas: string | null;
@@ -154,7 +155,7 @@ export default function ProducaoDetalhePage() {
             clientes ( nome_razao_social )
           ),
           itens_op (
-            id, descricao, quantidade, medidas, imagem_url,
+            id, ordem, descricao, quantidade, medidas, imagem_url,
             setor_atual, status_item,
             registros_checklist (
               id, setor, acao, created_at,
@@ -163,6 +164,8 @@ export default function ProducaoDetalhePage() {
           )
         `)
         .eq("id", id)
+        .order("ordem", { referencedTable: "itens_op", ascending: true, nullsFirst: false })
+        .order("id", { referencedTable: "itens_op", ascending: true })
         .single();
 
       if (error) throw error;

@@ -8,6 +8,7 @@ import { STATUS_ITEM_OP, getCorStatus } from "../../lib/statusProducao";
 
 interface ItemOP {
   id: string;
+  ordem?: number | null;
   descricao: string;
   quantidade: number;
   medidas: string | null;
@@ -197,7 +198,7 @@ export default function SetorPage() {
       let query = supabase
         .from("itens_op")
         .select(`
-          id, descricao, quantidade, medidas, imagem_url, setor_atual, status_item, op_id,
+          id, ordem, descricao, quantidade, medidas, imagem_url, setor_atual, status_item, op_id,
           ordens_producao (
             numero_op,
             orcamento_id,
@@ -209,7 +210,10 @@ export default function SetorPage() {
       // Remover filtro in("status_item") e filtros de setor
       // Todos os itens da OP devem aparecer
 
-      const { data, error } = await query.order("created_at", { ascending: true });
+      const { data, error } = await query
+        .order("ordem", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true })
+        .order("id", { ascending: true });
       if (error) throw error;
       const itens = (data as unknown as ItemOP[]) || [];
       setItensDaOp(itens);

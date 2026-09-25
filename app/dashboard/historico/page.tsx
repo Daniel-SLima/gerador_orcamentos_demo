@@ -538,13 +538,17 @@ export default function HistoricoOrcamentosPage() {
           // Busca os itens do orçamento para criar itens da OP
           const { data: itensOrc } = await supabase
             .from("itens_orcamento")
-            .select("id, descricao, quantidade, medidas, produto_id, produtos(imagem_url, id)")
-            .eq("orcamento_id", orcamentoOpSelecionado);
+            .select("id, descricao, quantidade, medidas, produto_id, ordem, created_at, produtos(imagem_url, id)")
+            .eq("orcamento_id", orcamentoOpSelecionado)
+            .order("ordem", { ascending: true, nullsFirst: false })
+            .order("created_at", { ascending: true })
+            .order("id", { ascending: true });
 
           if (itensOrc && itensOrc.length > 0) {
-            const itensParaOp = itensOrc.map(item => ({
+            const itensParaOp = itensOrc.map((item, index) => ({
               op_id: novaOp.id,
               item_orcamento_id: item.id,
+              ordem: item.ordem ?? index,
               descricao: item.descricao || "",
               quantidade: item.quantidade,
               medidas: item.medidas || null,

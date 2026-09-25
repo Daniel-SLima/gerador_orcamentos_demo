@@ -1,8 +1,10 @@
-# Gerador de Orcamentos - Demo
+# OrçaDemo — Gerador de Orçamentos
 
-Versao demonstrativa do sistema de orcamentos, preparada para entrevista e portfolio.
+Versão demonstrativa e pública de um sistema real de orçamentos e produção, preparada para portfólio, entrevistas e apresentações.
 
-Esta versao nao usa Supabase, Cloudinary ou qualquer banco real. Os dados ficam salvos no `localStorage` do navegador, com uma base ficticia criada automaticamente no primeiro acesso.
+Esta versão **não usa Supabase, Cloudinary, banco de produção ou qualquer serviço do cliente**. A aplicação usa uma camada local que simula as operações necessárias e mantém os dados somente no `localStorage` do navegador.
+
+Todos os nomes, empresas, clientes, telefones, documentos, endereços, valores e registros apresentados são fictícios.
 
 ## Login demo
 
@@ -11,33 +13,23 @@ E-mail: admin@admin.com
 Senha: admin123
 ```
 
-## Como rodar
+## O que funciona
 
-```bash
-npm install
-npm run dev
-```
+- Dashboard com dados fictícios.
+- Clientes e produtos.
+- Criação, clonagem e edição de orçamentos.
+- Reorganização da sequência dos itens.
+- PDFs e histórico.
+- Ordem de Produção e fluxo por setores.
+- Compras e notificações locais.
+- Restauração da base demo pelo próprio painel.
 
-Depois acesse:
+## Privacidade
 
-```txt
-http://localhost:3000
-```
+- Sem chaves reais.
+- Sem banco de produção.
+- Sem armazenamento do cliente.
+- Sem identidade visual do cliente.
+- Dados persistidos apenas no navegador.
 
-## O que funciona na demo
-
-- Login com usuario administrador ficticio.
-- Dashboard com dados de exemplo.
-- Cadastro, edicao e exclusao de clientes.
-- Cadastro, edicao e exclusao de produtos.
-- Criacao e historico de orcamentos.
-- Geracao/visualizacao de PDFs.
-- Fluxo basico de ordem de producao.
-- Central de compras e notificacoes com dados locais.
-
-## Observacoes importantes
-
-- Os dados nao sao compartilhados entre computadores.
-- Ao limpar os dados do navegador, a demo volta ao estado inicial.
-- Imagens anexadas ficam armazenadas como dados locais do navegador.
-- Nao coloque chaves reais, `.env` ou dados de clientes neste repositorio.
+> A finalidade é demonstrar interface, fluxo e decisões técnicas sem expor dados ou infraestrutura privada.

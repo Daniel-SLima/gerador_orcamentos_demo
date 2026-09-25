@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SANE Sistemas",
-  description: "Sistema profissional de orçamentos",
+  title: "OrçaDemo",
+  description: "Demonstração de sistema de orçamentos e produção",
 };
 
 export default function RootLayout({

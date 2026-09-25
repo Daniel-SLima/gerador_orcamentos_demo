@@ -62,20 +62,20 @@ function getInitialData(): DemoDatabase {
       { id: "user-julia-demo", email: "julia@demo.com", password: "demo1234", created_at: createdAt, updated_at: createdAt },
     ],
     vendedores: [
-      { id: vendedorA, nome: "Daniel Lima", telefone: "(11) 97720-6591", email: DEMO_USER.email, user_id: DEMO_USER.id, created_at: createdAt, updated_at: createdAt },
+      { id: vendedorA, nome: "Alex Souza", telefone: "(11) 95555-0100", email: DEMO_USER.email, user_id: DEMO_USER.id, created_at: createdAt, updated_at: createdAt },
       { id: "vendedor-julia", nome: "Julia Martins", telefone: "(11) 95555-0101", email: "julia@demo.com", user_id: "user-julia-demo", created_at: createdAt, updated_at: createdAt },
     ],
     empresa_perfil: [
       {
         id: "empresa-demo",
-        nome_empresa: "Sane Comunicacao Visual",
+        nome_empresa: "Studio Visual Demo",
         cnpj: "12.345.678/0001-90",
         telefone: "(11) 4002-8922",
-        email: "contato@sane-demo.com",
+        email: "contato@studio-demo.local",
         endereco: "Rua das Amostras, 120",
         cidade: "Sao Paulo",
         uf: "SP",
-        logo_url: "/Logo_Sane_512x512.png",
+        logo_url: "",
         created_at: createdAt,
         updated_at: createdAt,
       },
@@ -135,17 +135,17 @@ function getInitialData(): DemoDatabase {
       { id: orcamentoB, numero_orcamento: 1002, data_emissao: "2026-07-09", cliente_id: clienteB, vendedor_id: vendedorA, user_id: DEMO_USER.id, prazo: "5 dias uteis", forma_pagamento: "A vista", validade_proposta: "5 dias", observacoes: "Arte final enviada pelo cliente.", desconto_total: 0, valor_total: 640, status: "Aberto", created_at: createdAt, updated_at: createdAt },
     ],
     itens_orcamento: [
-      { id: itemOrcA, orcamento_id: orcamentoA, produto_id: produtoA, descricao: "Totem em ACM com iluminacao", quantidade: 1, valor_unitario_aplicado: 1850, medidas: "180 x 60 cm", desconto: 0, subtotal: 1850, user_id: DEMO_USER.id, created_at: createdAt },
-      { id: itemOrcB, orcamento_id: orcamentoA, produto_id: produtoB, descricao: "Fachada em lona tensionada", quantidade: 1, valor_unitario_aplicado: 2450, medidas: "300 x 90 cm", desconto: 150, subtotal: 2300, user_id: DEMO_USER.id, created_at: createdAt },
-      { id: "item-orcamento-3", orcamento_id: orcamentoB, produto_id: produtoC, descricao: "Adesivo vinil recortado", quantidade: 2, valor_unitario_aplicado: 320, medidas: "100 x 80 cm", desconto: 0, subtotal: 640, user_id: DEMO_USER.id, created_at: createdAt },
+      { id: itemOrcA, orcamento_id: orcamentoA, produto_id: produtoA, ordem: 0, descricao: "Totem em ACM com iluminacao", quantidade: 1, valor_unitario_aplicado: 1850, medidas: "180 x 60 cm", desconto: 0, subtotal: 1850, user_id: DEMO_USER.id, created_at: createdAt },
+      { id: itemOrcB, orcamento_id: orcamentoA, produto_id: produtoB, ordem: 1, descricao: "Fachada em lona tensionada", quantidade: 1, valor_unitario_aplicado: 2450, medidas: "300 x 90 cm", desconto: 150, subtotal: 2300, user_id: DEMO_USER.id, created_at: createdAt },
+      { id: "item-orcamento-3", orcamento_id: orcamentoB, produto_id: produtoC, ordem: 0, descricao: "Adesivo vinil recortado", quantidade: 2, valor_unitario_aplicado: 320, medidas: "100 x 80 cm", desconto: 0, subtotal: 640, user_id: DEMO_USER.id, created_at: createdAt },
     ],
     orcamento_anexos: [],
     ordens_producao: [
       { id: opA, orcamento_id: orcamentoA, numero_op: 1001, status: "em_producao", observacoes: "Demo: acompanhar primeiras etapas.", endereco_rua: "Av. Paulista", endereco_numero: "1000", endereco_bairro: "Bela Vista", endereco_cidade: "Sao Paulo", endereco_cep: "01310-100", contato_nome: "Marina Costa", contato_telefone: "(11) 98888-0101", prazo_entrega: "2026-07-20", created_at: createdAt, updated_at: createdAt },
     ],
     itens_op: [
-      { id: itemOpA, op_id: opA, item_orcamento_id: itemOrcA, produto_id: produtoA, descricao: "Totem em ACM com iluminacao", quantidade: 1, medidas: "180 x 60 cm", imagem_url: "", setor_atual: "metalurgia", status_item: "em_andamento", created_at: createdAt, updated_at: createdAt },
-      { id: itemOpB, op_id: opA, item_orcamento_id: itemOrcB, produto_id: produtoB, descricao: "Fachada em lona tensionada", quantidade: 1, medidas: "300 x 90 cm", imagem_url: "", setor_atual: "aguardando", status_item: "pendente", created_at: createdAt, updated_at: createdAt },
+      { id: itemOpA, op_id: opA, item_orcamento_id: itemOrcA, produto_id: produtoA, ordem: 0, descricao: "Totem em ACM com iluminacao", quantidade: 1, medidas: "180 x 60 cm", imagem_url: "", setor_atual: "metalurgia", status_item: "em_andamento", created_at: createdAt, updated_at: createdAt },
+      { id: itemOpB, op_id: opA, item_orcamento_id: itemOrcB, produto_id: produtoB, ordem: 1, descricao: "Fachada em lona tensionada", quantidade: 1, medidas: "300 x 90 cm", imagem_url: "", setor_atual: "aguardando", status_item: "pendente", created_at: createdAt, updated_at: createdAt },
     ],
     subitens_op: [
       { id: "sub-op-1", item_op_id: itemOpA, nome: "Separar chapas", ordem: 0, concluido: true, concluido_por: DEMO_USER.id, concluido_em: createdAt, status: "concluido", created_at: createdAt },
@@ -185,6 +185,24 @@ function loadDb(): DemoDatabase {
         changed = true;
       }
     });
+
+    const normalizarOrdemLegada = (table: "itens_orcamento" | "itens_op", parentField: "orcamento_id" | "op_id") => {
+      const grupos = new Map<string, DemoRow[]>();
+      parsed[table].forEach((row) => {
+        const parentId = String(row[parentField] ?? "");
+        const grupo = grupos.get(parentId) ?? [];
+        grupo.push(row);
+        grupos.set(parentId, grupo);
+      });
+      grupos.forEach((grupo) => {
+        if (grupo.some((row) => row.ordem === undefined || row.ordem === null)) {
+          grupo.forEach((row, index) => { row.ordem = index; });
+          changed = true;
+        }
+      });
+    };
+    normalizarOrdemLegada("itens_orcamento", "orcamento_id");
+    normalizarOrdemLegada("itens_op", "op_id");
     if (changed) saveDb(parsed);
     return parsed;
   } catch {
@@ -371,7 +389,8 @@ function enrichRow(table: DemoTable, row: DemoRow, db: DemoDatabase): DemoRow {
 class DemoQueryBuilder implements PromiseLike<any> {
   private filters: Array<(row: DemoRow) => boolean> = [];
   private orExpression: string | null = null;
-  private sorters: Array<{ field: string; ascending: boolean }> = [];
+  private sorters: Array<{ field: string; ascending: boolean; nullsFirst: boolean }> = [];
+  private nestedSorters: Array<{ table: string; field: string; ascending: boolean; nullsFirst: boolean }> = [];
   private rangeValue: [number, number] | null = null;
   private limitValue: number | null = null;
   private operation: "select" | "insert" | "update" | "delete" = "select";
@@ -445,8 +464,10 @@ class DemoQueryBuilder implements PromiseLike<any> {
     return this;
   }
 
-  order(field: string, options?: { ascending?: boolean }) {
-    this.sorters.push({ field, ascending: options?.ascending !== false });
+  order(field: string, options?: { ascending?: boolean; nullsFirst?: boolean; referencedTable?: string }) {
+    const sorter = { field, ascending: options?.ascending !== false, nullsFirst: options?.nullsFirst === true };
+    if (options?.referencedTable) this.nestedSorters.push({ table: options.referencedTable, ...sorter });
+    else this.sorters.push(sorter);
     return this;
   }
 
@@ -480,8 +501,15 @@ class DemoQueryBuilder implements PromiseLike<any> {
     let result = [...rows];
     [...this.sorters].reverse().forEach((sorter) => {
       result.sort((a, b) => {
-        const left = a[sorter.field] ?? "";
-        const right = b[sorter.field] ?? "";
+        const left = a[sorter.field];
+        const right = b[sorter.field];
+        const leftNull = left === undefined || left === null;
+        const rightNull = right === undefined || right === null;
+        if (leftNull || rightNull) {
+          if (leftNull && rightNull) return 0;
+          const nullDirection = sorter.nullsFirst ? -1 : 1;
+          return leftNull ? nullDirection : -nullDirection;
+        }
         if (left === right) return 0;
         const direction = left > right ? 1 : -1;
         return sorter.ascending ? direction : -direction;
@@ -522,6 +550,30 @@ class DemoQueryBuilder implements PromiseLike<any> {
     }
 
     let data: any = this.applySortingAndWindow(affectedRows).map((row) => enrichRow(this.table, row, db));
+    if (this.nestedSorters.length > 0) {
+      data = data.map((row: DemoRow) => {
+        const enriched = { ...row };
+        [...this.nestedSorters].reverse().forEach((sorter) => {
+          const nested = enriched[sorter.table];
+          if (!Array.isArray(nested)) return;
+          nested.sort((a: DemoRow, b: DemoRow) => {
+            const left = a[sorter.field];
+            const right = b[sorter.field];
+            const leftNull = left === undefined || left === null;
+            const rightNull = right === undefined || right === null;
+            if (leftNull || rightNull) {
+              if (leftNull && rightNull) return 0;
+              const nullDirection = sorter.nullsFirst ? -1 : 1;
+              return leftNull ? nullDirection : -nullDirection;
+            }
+            if (left === right) return 0;
+            const direction = left > right ? 1 : -1;
+            return sorter.ascending ? direction : -direction;
+          });
+        });
+        return enriched;
+      });
+    }
 
     if (this.returnSingle || this.returnMaybeSingle) {
       data = data[0] ?? null;

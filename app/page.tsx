@@ -68,12 +68,8 @@ function LoginForm() {
 
         {/* LOGO */}
         <div className="text-center mb-8 flex flex-col items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/Logo_Sane_512x512.png"
-            alt="SANE Sistemas"
-            className="h-16 w-auto object-contain mb-2"
-          />
+          <div className="h-16 w-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-xl font-black mb-2 shadow-sm">OD</div>
+          <h1 className="text-2xl font-black text-gray-900 tracking-tight">OrçaDemo</h1>
           <p className="text-sm text-gray-500 mt-2">Acesse sua conta para continuar</p>
         </div>
 

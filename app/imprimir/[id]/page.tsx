@@ -67,7 +67,10 @@ export default function ImprimirOrcamento() {
         const { data: itens, error: erroItens } = await supabase
           .from("itens_orcamento")
           .select(`*, produtos ( imagem_url )`)
-          .eq("orcamento_id", id);
+          .eq("orcamento_id", id)
+          .order("ordem", { ascending: true, nullsFirst: false })
+          .order("created_at", { ascending: true })
+          .order("id", { ascending: true });
 
         if (erroItens) throw erroItens;
 

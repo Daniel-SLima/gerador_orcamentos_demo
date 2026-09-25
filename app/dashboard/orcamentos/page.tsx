@@ -31,6 +31,7 @@ interface ItemBanco {
   medidas: string;
   desconto: number;
   subtotal: number;
+  ordem?: number | null;
 }
 
 // 🚀 NOVA INTERFACE PARA ANEXOS VINDOS DO BANCO
@@ -171,7 +172,13 @@ function FormularioOrcamento() {
       const targetId = editId || cloneId;
       if (targetId) {
         const { data: orcData } = await supabase.from("orcamentos").select("*").eq("id", targetId).single();
-        const { data: itensData } = await supabase.from("itens_orcamento").select("*").eq("orcamento_id", targetId);
+        const { data: itensData } = await supabase
+          .from("itens_orcamento")
+          .select("*")
+          .eq("orcamento_id", targetId)
+          .order("ordem", { ascending: true, nullsFirst: false })
+          .order("created_at", { ascending: true })
+          .order("id", { ascending: true });
 
         // 🚀 BUSCA OS ANEXOS QUE JÁ EXISTEM NESSE ORÇAMENTO NO BANCO DE DADOS
         const { data: anexosData } = await supabase.from("orcamento_anexos").select("*").eq("orcamento_id", targetId);
@@ -258,6 +265,18 @@ function FormularioOrcamento() {
 
   const removerDoCarrinho = (indexParaRemover: number) => {
     setItens(itens.filter((_, index) => index !== indexParaRemover));
+  };
+
+  const moverItem = (origem: number, destino: number) => {
+    setItens((listaAtual) => {
+      if (origem < 0 || origem >= listaAtual.length || destino < 0 || destino >= listaAtual.length || origem === destino) {
+        return listaAtual;
+      }
+      const listaReordenada = [...listaAtual];
+      const [itemMovido] = listaReordenada.splice(origem, 1);
+      listaReordenada.splice(destino, 0, itemMovido);
+      return listaReordenada;
+    });
   };
 
   const abrirModalEdicao = (index: number) => {
@@ -438,8 +457,8 @@ function FormularioOrcamento() {
         idFinal = orcamentoGerado.id;
       }
 
-      const itensParaBanco = itens.map(item => ({
-        orcamento_id: idFinal, produto_id: item.produto_id, user_id: user.id, descricao: item.descricao,
+      const itensParaBanco = itens.map((item, index) => ({
+        orcamento_id: idFinal, produto_id: item.produto_id, user_id: user.id, ordem: index, descricao: item.descricao,
         quantidade: item.quantidade, valor_unitario_aplicado: item.valor_unitario, medidas: item.medidas,
         desconto: item.desconto, subtotal: item.subtotal
       }));
@@ -789,7 +808,11 @@ function FormularioOrcamento() {
                     <h3 className="font-bold text-gray-900 break-all">{String.fromCharCode(65 + index)} - {item.descricao}</h3>
                     {item.medidas && <p className="text-xs text-gray-500 mt-1"><span className="font-semibold text-gray-400">Medidas:</span> {item.medidas}</p>}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap justify-end gap-1">
+                    <button type="button" onClick={() => moverItem(index, 0)} disabled={isAprovado || index === 0} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para o início">⇈</button>
+                    <button type="button" onClick={() => moverItem(index, index - 1)} disabled={isAprovado || index === 0} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para cima">↑</button>
+                    <button type="button" onClick={() => moverItem(index, index + 1)} disabled={isAprovado || index === itens.length - 1} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para baixo">↓</button>
+                    <button type="button" onClick={() => moverItem(index, itens.length - 1)} disabled={isAprovado || index === itens.length - 1} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para o fim">⇊</button>
                     <button onClick={() => abrirModalEdicao(index)} className="text-blue-500 hover:text-blue-700 p-1.5 transition-colors bg-white rounded-md border border-gray-200 shadow-sm" title="Editar">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                     </button>
@@ -847,7 +870,11 @@ function FormularioOrcamento() {
 
                     <td className="py-3 px-4 text-right text-gray-900 font-bold">{formatarMoeda(item.subtotal)}</td>
                     <td className="py-3 px-4 text-center">
-                      <div className="flex items-center justify-center gap-2">
+                      <div className="flex items-center justify-center gap-1">
+                        <button type="button" onClick={() => moverItem(index, 0)} disabled={isAprovado || index === 0} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para o início">⇈</button>
+                        <button type="button" onClick={() => moverItem(index, index - 1)} disabled={isAprovado || index === 0} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para cima">↑</button>
+                        <button type="button" onClick={() => moverItem(index, index + 1)} disabled={isAprovado || index === itens.length - 1} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para baixo">↓</button>
+                        <button type="button" onClick={() => moverItem(index, itens.length - 1)} disabled={isAprovado || index === itens.length - 1} className="text-gray-500 hover:text-blue-700 px-2 py-1 transition-colors bg-white rounded-md border border-gray-200 shadow-sm disabled:opacity-30 disabled:cursor-not-allowed" title="Mover para o fim">⇊</button>
                         <button onClick={() => abrirModalEdicao(index)} className="text-blue-500 hover:text-blue-700 p-1.5 transition-colors bg-white rounded-md border border-gray-200 shadow-sm" title="Editar">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </button>

@@ -200,7 +200,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       <header className="md:hidden fixed top-0 left-0 w-full h-16 bg-white border-b border-gray-200 flex items-center justify-between px-5 z-40 shadow-sm">
         <div className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/Logo_Sane_512x512.png" alt="SANE" className="h-8 w-auto object-contain" />
+          <div className="font-black text-blue-700 tracking-tight">OrçaDemo</div>
         </div>
         <div className="flex items-center gap-2">
           <NotificationBell />
@@ -219,7 +219,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       <aside className={`fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 shadow-2xl z-50 flex flex-col transform transition-transform duration-300 ease-in-out md:translate-x-0 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="h-16 md:h-24 flex items-center justify-between px-6 border-b border-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/Logo_Sane_512x512.png" alt="SANE" className="h-10 md:h-12 w-auto object-contain" />
+          <div className="text-xl font-black text-blue-700 tracking-tight">OrçaDemo</div>
           <div className="hidden md:flex items-center">
           </div>
           <button onClick={() => setIsMobileMenuOpen(false)} className="md:hidden text-gray-400 hover:text-red-500 p-1">
