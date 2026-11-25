@@ -857,7 +857,7 @@ export default function DashboardPage() {
       </div>
 
       {/* BLOCO 1: CARDS DE RESUMO (GRID) */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-5 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mt-4">
 
         {/* Card 1: Em Aberto */}
         <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 shadow-md text-white">

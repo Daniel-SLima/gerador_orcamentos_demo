@@ -862,7 +862,7 @@ export default function HistoricoOrcamentosPage() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <h1 className="text-2xl font-bold text-gray-900">Histórico de Orçamentos</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {(isAdmin || isFinanceiro) && (
             <button
               onClick={() => setPainelExportAberto(!painelExportAberto)}
