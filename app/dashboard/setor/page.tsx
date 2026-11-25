@@ -1,6 +1,6 @@
 "use client";
 
-import { printRoute, printUrl, withDemoBase } from "../../lib/demoMode";
+import { printUrl, productionRoute } from "../../lib/demoMode";
 
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
@@ -407,7 +407,7 @@ export default function SetorPage() {
               tipo: "nova_op",
               titulo: `Item concluído na OP #${numeroOp} ✅`,
               mensagem: `"${item.descricao.slice(0, 40)}..." avançou para CONCLUSÃO.`,
-              link: `/dashboard/producao/${item.op_id}`,
+              link: productionRoute(item.op_id),
             }));
             await supabase.from("notifications").insert(notificacoes);
           } else {
@@ -417,7 +417,7 @@ export default function SetorPage() {
               tipo: "nova_op",
               titulo: `OP #${numeroOp} avançou para ${setorLabel}`,
               mensagem: `"${item.descricao.slice(0, 40)}..." saiu de ${SETORES_LABELS[setorAtual]} e entrou em ${setorLabel}.`,
-              link: `/dashboard/producao/${item.op_id}`,
+              link: productionRoute(item.op_id),
             }));
             await supabase.from("notifications").insert(notificacoesAdmins);
 

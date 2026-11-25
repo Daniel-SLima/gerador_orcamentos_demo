@@ -144,7 +144,7 @@ export default function ProducaoDetalhePage() {
       }
       carregarOp();
     }
-  }, [loadingPerfil, isAdmin]);
+  }, [loadingPerfil, isAdmin, id]);
 
   const carregarOp = async () => {
     setLoading(true);

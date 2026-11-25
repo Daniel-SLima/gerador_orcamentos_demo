@@ -20,9 +20,13 @@ export default function ImprimirOrcamento() {
   const [error, setError] = useState("");
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfNome, setPdfNome] = useState<string>("");
+  const [downloadRequested, setDownloadRequested] = useState(false);
 
   useEffect(() => {
     const processarPDF = async () => {
+      setDownloadRequested(false);
+      setPdfUrl(null);
+      setError("");
       try {
         // C03 — Verificar quem está logado antes de gerar o PDF
         const { data: { user } } = await supabase.auth.getUser();
@@ -122,6 +126,8 @@ export default function ImprimirOrcamento() {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
+          setPdfNome(nomeArquivo);
+          setDownloadRequested(true);
           setTimeout(() => URL.revokeObjectURL(urlCriada), 100);
         } else {
           setPdfUrl(urlCriada);
@@ -140,6 +146,18 @@ export default function ImprimirOrcamento() {
     return (
       <div className="h-screen flex items-center justify-center text-red-500 font-bold bg-gray-900">
         {error}
+      </div>
+    );
+  }
+
+  if (downloadRequested) {
+    return (
+      <div className="h-screen w-full flex flex-col items-center justify-center gap-3 bg-[#323639] p-6 text-center" role="status">
+        <h1 className="text-xl font-bold text-white">PDF gerado</h1>
+        <p className="text-sm font-medium text-gray-200">{pdfNome}</p>
+        <p className="max-w-md text-sm leading-relaxed text-gray-300">
+          O download foi solicitado. Confira a pasta de downloads do navegador.
+        </p>
       </div>
     );
   }
