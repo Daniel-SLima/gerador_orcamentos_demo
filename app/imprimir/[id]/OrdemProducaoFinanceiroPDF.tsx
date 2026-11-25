@@ -1,3 +1,4 @@
+import { LOCAL_DEMO } from "../../lib/demoMode";
 /**
  * OrdemProducaoFinanceiroPDF.tsx
  * Componente responsável pela geração do PDF de ORDEM DE PRODUÇÃO (OP) PARA O FINANCEIRO.
@@ -394,6 +395,7 @@ export const OrdemProducaoFinanceiroPDF = ({ dados }: { dados: DadosImpressao })
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {LOCAL_DEMO && <Text fixed style={{ position: "absolute", top: 12, left: 40, right: 40, fontSize: 8, color: "#64748b", textAlign: "center" }}>DEMONSTRAÇÃO LOCAL - SEM VALOR COMERCIAL</Text>}
         {renderHeader()}
 
         {/* Dados do Cliente */}
@@ -604,6 +606,7 @@ export const OrdemProducaoFinanceiroPDF = ({ dados }: { dados: DadosImpressao })
         }
         return (
           <Page key={`anexo-${idx}`} size="A4" style={styles.page}>
+        {LOCAL_DEMO && <Text fixed style={{ position: "absolute", top: 12, left: 40, right: 40, fontSize: 8, color: "#64748b", textAlign: "center" }}>DEMONSTRAÇÃO LOCAL - SEM VALOR COMERCIAL</Text>}
             {renderHeader(`ANEXO: ${img.file_name}`)}
             <View
               style={{ flex: 1, marginVertical: 10, alignItems: "center", justifyContent: "center" }}

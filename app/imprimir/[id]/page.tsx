@@ -1,5 +1,7 @@
 "use client";
 
+import { LOCAL_DEMO } from "../../lib/demoMode";
+
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
@@ -12,7 +14,7 @@ import { OrdemProducaoFinanceiroPDF } from "./OrdemProducaoFinanceiroPDF";
 export default function ImprimirOrcamento() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const id = params.id as string;
+  const id = LOCAL_DEMO ? searchParams.get("id") || "" : params.id as string;
   const action = searchParams.get("action") || "view";
 
   const [error, setError] = useState("");

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { resetDemoData, supabase } from "../lib/supabase";
+import { LOCAL_DEMO } from "../lib/demoMode";
 import { PerfilUsuarioProvider, usePerfilUsuario } from "../hooks/usePerfilUsuario";
 import { ToastProvider } from "../components/Toast";
 import NotificationBell from "../components/NotificationBell";
@@ -256,6 +257,11 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
         <div className="hidden md:flex items-center justify-end px-6 py-3 bg-white border-b border-gray-100 sticky top-0 z-30">
           <NotificationBell />
         </div>
+        {LOCAL_DEMO && (
+          <div className="border-b border-blue-200 bg-blue-50 px-5 py-3 text-sm leading-relaxed text-blue-900" role="note">
+            <strong>Demonstração local · Dados fictícios.</strong> Cadastros e alterações ficam só neste navegador. PDFs sem valor comercial. Endereços de exemplo em BA, RJ e SP.
+          </div>
+        )}
         {children}
       </main>
       

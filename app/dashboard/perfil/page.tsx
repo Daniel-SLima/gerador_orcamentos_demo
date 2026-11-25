@@ -1,5 +1,7 @@
 "use client";
 
+import { demoFetch } from "../../lib/demoFetch";
+
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../../lib/supabase";
 import { uploadParaCloudinary, deletarDoCloudinary } from "../../lib/uploadCloudinary";
@@ -94,7 +96,7 @@ export default function PerfilEmpresa() {
 
   const carregarEstados = async () => {
     try {
-      const res = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome");
+      const res = await demoFetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome");
       const data = await res.json();
       setEstados(data);
     } catch (error) {
@@ -105,7 +107,7 @@ export default function PerfilEmpresa() {
   useEffect(() => {
     if (formData.uf) {
       setCarregandoCidades(true);
-      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${formData.uf}/municipios?orderBy=nome`)
+      demoFetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${formData.uf}/municipios?orderBy=nome`)
         .then(res => res.json())
         .then(data => {
           setCidades(data); // Atualizando 'cidades'
@@ -140,7 +142,7 @@ export default function PerfilEmpresa() {
       }
 
       try {
-        const resVendedores = await fetch('/api/vendedores');
+        const resVendedores = await demoFetch('/api/vendedores');
         const listaVendedores = await resVendedores.json();
         if (Array.isArray(listaVendedores)) setVendedores(listaVendedores);
       } catch (e) {
@@ -264,7 +266,7 @@ export default function PerfilEmpresa() {
       if (!session) throw new Error("Usuário não logado");
 
       if (vendedorForm.id) {
-        const res = await fetch("/api/vendedores", {
+        const res = await demoFetch("/api/vendedores", {
           method: "PUT",
           headers: { 
             "Content-Type": "application/json",
@@ -276,7 +278,7 @@ export default function PerfilEmpresa() {
         if (!res.ok) throw new Error(data.error || "Erro ao atualizar");
         setVendedores(vendedores.map(v => v.id === vendedorForm.id ? { ...v, nome: data.nome, telefone: data.telefone, email: data.email } : v));
       } else {
-        const res = await fetch("/api/vendedores", {
+        const res = await demoFetch("/api/vendedores", {
           method: "POST",
           headers: { 
             "Content-Type": "application/json",
@@ -311,7 +313,7 @@ export default function PerfilEmpresa() {
     if (!confirmado) return;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`/api/vendedores?id=${id}`, { 
+      const res = await demoFetch(`/api/vendedores?id=${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${session?.access_token}` }
       });

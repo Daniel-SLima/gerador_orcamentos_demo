@@ -43,5 +43,9 @@ yarn-error.log*
 test*.js
 test*.cjs
 scripts/
+!scripts/
+scripts/*
+!scripts/build-pages-demo.mjs
+/.pages-demo-build/
 repomix-output.*
 *.sql

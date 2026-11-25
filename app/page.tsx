@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "./lib/supabase";
+import { startLocalDemoSession, supabase } from "./lib/supabase";
+import { LOCAL_DEMO } from "./lib/demoMode";
 import { useRouter } from "next/navigation";
 import { ToastProvider, useToast } from "./components/Toast";
 
@@ -15,6 +16,17 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const explorarDemo = () => {
+    setLoading(true);
+    try {
+      startLocalDemoSession();
+      router.push("/dashboard/");
+    } catch {
+      showToast("Permita o armazenamento local do navegador para explorar a demonstração.", "error");
+      setLoading(false);
+    }
+  };
 
   // 🚀 FUNÇÃO PARA TRADUZIR OS ERROS DO SUPABASE
   const traduzirErro = (mensagem: string) => {
@@ -61,6 +73,25 @@ function LoginForm() {
     }
     setLoading(false);
   };
+
+  if (LOCAL_DEMO) return (
+    <main className="min-h-screen flex items-center justify-center bg-slate-50 p-5">
+      <section className="max-w-xl w-full rounded-2xl border border-slate-200 bg-white p-8 shadow-lg sm:p-10">
+        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 text-xl font-black text-white">OD</div>
+        <p className="text-sm font-semibold uppercase tracking-wider text-blue-700">Projeto de Daniel Lima</p>
+        <h1 className="mt-2 text-3xl font-black text-slate-900">OrçaDemo</h1>
+        <p className="mt-4 text-base leading-relaxed text-slate-600">Explore o gerador de orçamentos: cadastre clientes e produtos, monte propostas, gere PDFs e acompanhe o histórico, a produção e as compras.</p>
+        <div className="my-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm leading-relaxed text-blue-900">
+          <strong>Demonstração com dados fictícios.</strong> As alterações ficam apenas neste navegador. Não é necessário informar e-mail ou senha. Os documentos gerados são exemplos sem valor comercial.
+        </div>
+        <button type="button" onClick={explorarDemo} disabled={loading} className="w-full rounded-xl bg-blue-600 px-5 py-3.5 text-base font-bold text-white transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 disabled:opacity-60">
+          {loading ? "Abrindo demonstração..." : "Explorar demonstração"}
+        </button>
+        <p className="mt-4 text-sm text-slate-500">Você pode restaurar os dados de exemplo a qualquer momento pelo menu.</p>
+        <a href="/Portfolio/" className="mt-6 inline-block text-sm font-semibold text-blue-700 underline underline-offset-4">Voltar ao portfólio</a>
+      </section>
+    </main>
+  );
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">

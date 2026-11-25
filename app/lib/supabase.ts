@@ -1,3 +1,4 @@
+import { LOCAL_DEMO } from "./demoMode";
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 
 type DemoRow = Record<string, any>;
@@ -21,8 +22,8 @@ type DemoTable =
 
 type DemoDatabase = Record<DemoTable, DemoRow[]>;
 
-const STORAGE_KEY = "gerador_orcamentos_demo_v1";
-const SESSION_KEY = "gerador_orcamentos_demo_session_v1";
+const STORAGE_KEY = LOCAL_DEMO ? "portfolio_orcamentos_local_v1" : "gerador_orcamentos_demo_v1";
+const SESSION_KEY = LOCAL_DEMO ? "portfolio_orcamentos_session_v1" : "gerador_orcamentos_demo_session_v1";
 const DEMO_USER = { id: "user-admin-demo", email: "admin@admin.com" };
 
 const now = () => new Date().toISOString();
@@ -33,7 +34,8 @@ const uuid = () =>
     : `demo-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 function getInitialData(): DemoDatabase {
-  const createdAt = "2026-07-09T12:00:00.000Z";
+  const createdAt = LOCAL_DEMO ? now() : "2026-07-09T12:00:00.000Z";
+  const demoDate = LOCAL_DEMO ? createdAt.slice(0, 10) : "2026-07-09";
   const clienteA = "cliente-alfa";
   const clienteB = "cliente-beta";
   const vendedorA = "vendedor-admin";
@@ -69,11 +71,12 @@ function getInitialData(): DemoDatabase {
       {
         id: "empresa-demo",
         nome_empresa: "Studio Visual Demo",
+        ...(LOCAL_DEMO ? { nome_fantasia: "Studio Visual Demo", bairro: "Bela Vista", rua_numero: "Rua das Amostras, 120", cep: "01310-100" } : {}),
         cnpj: "12.345.678/0001-90",
         telefone: "(11) 4002-8922",
         email: "contato@studio-demo.local",
         endereco: "Rua das Amostras, 120",
-        cidade: "Sao Paulo",
+        cidade: LOCAL_DEMO ? "São Paulo" : "Sao Paulo",
         uf: "SP",
         logo_url: "",
         created_at: createdAt,
@@ -91,7 +94,7 @@ function getInitialData(): DemoDatabase {
         endereco: "Av. Paulista, 1000",
         cep: "01310-100",
         uf: "SP",
-        cidade: "Sao Paulo",
+        cidade: LOCAL_DEMO ? "São Paulo" : "Sao Paulo",
         bairro: "Bela Vista",
         rua_numero: "Av. Paulista, 1000",
         inscricao_estadual: "Isento",
@@ -131,8 +134,8 @@ function getInitialData(): DemoDatabase {
       { id: "sub-prod-3", produto_id: produtoB, nome: "Impressao da lona", ordem: 0, created_at: createdAt },
     ],
     orcamentos: [
-      { id: orcamentoA, numero_orcamento: 1001, data_emissao: "2026-07-09", cliente_id: clienteA, vendedor_id: vendedorA, user_id: DEMO_USER.id, prazo: "10 dias uteis", forma_pagamento: "50% entrada e 50% na entrega", validade_proposta: "7 dias", observacoes: "Instalacao em horario comercial.", desconto_total: 150, valor_total: 4150, status: "Aprovado", created_at: createdAt, updated_at: createdAt },
-      { id: orcamentoB, numero_orcamento: 1002, data_emissao: "2026-07-09", cliente_id: clienteB, vendedor_id: vendedorA, user_id: DEMO_USER.id, prazo: "5 dias uteis", forma_pagamento: "A vista", validade_proposta: "5 dias", observacoes: "Arte final enviada pelo cliente.", desconto_total: 0, valor_total: 640, status: "Aberto", created_at: createdAt, updated_at: createdAt },
+      { id: orcamentoA, numero_orcamento: 1001, data_emissao: demoDate, cliente_id: clienteA, vendedor_id: vendedorA, user_id: DEMO_USER.id, prazo: "10 dias uteis", forma_pagamento: "50% entrada e 50% na entrega", validade_proposta: "7 dias", observacoes: "Instalacao em horario comercial.", desconto_total: 150, valor_total: 4150, status: "Aprovado", created_at: createdAt, updated_at: createdAt },
+      { id: orcamentoB, numero_orcamento: 1002, data_emissao: demoDate, cliente_id: clienteB, vendedor_id: vendedorA, user_id: DEMO_USER.id, prazo: "5 dias uteis", forma_pagamento: "A vista", validade_proposta: "5 dias", observacoes: "Arte final enviada pelo cliente.", desconto_total: 0, valor_total: 640, status: "Aberto", created_at: createdAt, updated_at: createdAt },
     ],
     itens_orcamento: [
       { id: itemOrcA, orcamento_id: orcamentoA, produto_id: produtoA, ordem: 0, descricao: "Totem em ACM com iluminacao", quantidade: 1, valor_unitario_aplicado: 1850, medidas: "180 x 60 cm", desconto: 0, subtotal: 1850, user_id: DEMO_USER.id, created_at: createdAt },
@@ -141,7 +144,7 @@ function getInitialData(): DemoDatabase {
     ],
     orcamento_anexos: [],
     ordens_producao: [
-      { id: opA, orcamento_id: orcamentoA, numero_op: 1001, status: "em_producao", observacoes: "Demo: acompanhar primeiras etapas.", endereco_rua: "Av. Paulista", endereco_numero: "1000", endereco_bairro: "Bela Vista", endereco_cidade: "Sao Paulo", endereco_cep: "01310-100", contato_nome: "Marina Costa", contato_telefone: "(11) 98888-0101", prazo_entrega: "2026-07-20", created_at: createdAt, updated_at: createdAt },
+      { id: opA, orcamento_id: orcamentoA, numero_op: 1001, status: "em_producao", observacoes: "Demo: acompanhar primeiras etapas.", endereco_rua: "Av. Paulista", endereco_numero: "1000", endereco_bairro: "Bela Vista", endereco_cidade: LOCAL_DEMO ? "São Paulo" : "Sao Paulo", endereco_cep: "01310-100", contato_nome: "Marina Costa", contato_telefone: "(11) 98888-0101", prazo_entrega: "2026-07-20", created_at: createdAt, updated_at: createdAt },
     ],
     itens_op: [
       { id: itemOpA, op_id: opA, item_orcamento_id: itemOrcA, produto_id: produtoA, ordem: 0, descricao: "Totem em ACM com iluminacao", quantidade: 1, medidas: "180 x 60 cm", imagem_url: "", setor_atual: "metalurgia", status_item: "em_andamento", created_at: createdAt, updated_at: createdAt },
@@ -291,6 +294,14 @@ function getStoredSession() {
 
 function setStoredSession(session: any) {
   if (hasWindow()) window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+}
+
+/** Starts a fictional browser-only session; no credentials or request are sent. */
+export function startLocalDemoSession() {
+  loadDb();
+  const session = { access_token: "local-demo-session", user: DEMO_USER };
+  setStoredSession(session);
+  return session;
 }
 
 function clearStoredSession() {

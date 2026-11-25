@@ -1,5 +1,7 @@
 "use client";
 
+import { productionRoute } from "../../lib/demoMode";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -175,7 +177,7 @@ export default function ProducaoPage() {
             const dataFormatada = new Date(op.created_at).toLocaleDateString("pt-BR");
 
             return (
-              <Link key={op.id} href={`/dashboard/producao/${op.id}`}>
+              <Link key={op.id} href={productionRoute(op.id)}>
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer h-full">
                   {/* Cabeçalho do card */}
                   <div className="flex justify-between items-start mb-3">

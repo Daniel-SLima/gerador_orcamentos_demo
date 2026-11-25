@@ -1,5 +1,8 @@
 "use client";
 
+import { LOCAL_DEMO } from "../../lib/demoMode";
+import { demoFetch } from "../../lib/demoFetch";
+
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { AlertModal, ConfirmModal, useAlert, useConfirm } from "../../components/AlertModal";
@@ -160,7 +163,7 @@ export default function ClientesPage() {
 
   const carregarEstados = async () => {
     try {
-      const res = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome");
+      const res = await demoFetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome");
       const data = await res.json();
       setEstados(data);
     } catch (error) {
@@ -171,7 +174,7 @@ export default function ClientesPage() {
   useEffect(() => {
     if (uf) {
       setCarregandoCidades(true);
-      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`)
+      demoFetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`)
         .then(res => res.json())
         .then(data => {
           setCidadesList(data);
@@ -193,11 +196,11 @@ export default function ClientesPage() {
     setBuscandoCep(true);
 
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+      const response = await demoFetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
       const data = await response.json();
 
       if (data.erro) {
-        showToast("CEP não encontrado.", "error");
+        showToast(LOCAL_DEMO ? "CEP de exemplo: use 01310-100, 20010-120 ou 40020-000. Você também pode preencher o endereço manualmente." : "CEP não encontrado.", "error");
         return;
       }
 

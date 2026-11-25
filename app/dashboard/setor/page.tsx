@@ -1,5 +1,7 @@
 "use client";
 
+import { printRoute, printUrl, withDemoBase } from "../../lib/demoMode";
+
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { usePerfilUsuario } from "../../hooks/usePerfilUsuario";
@@ -547,7 +549,7 @@ export default function SetorPage() {
                 {/* Botão Ver OP — aparece ao lado quando uma OP está selecionada */}
                 {opSelecionada && (
                   <button
-                    onClick={() => window.open(`/imprimir/${opSelecionada.orcamento_id}?action=op`, "_blank")}
+                    onClick={() => window.open(printUrl(opSelecionada.orcamento_id, "op"), "_blank")}
                     className="flex items-center gap-2 px-4 py-1.5 bg-gray-700 hover:bg-gray-600 border border-gray-500 rounded-full text-sm font-bold text-gray-200 transition-colors"
                   >
                     <span>📄</span>

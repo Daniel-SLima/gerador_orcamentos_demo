@@ -1,5 +1,8 @@
 "use client";
 
+import { demoFetch } from "../../lib/demoFetch";
+import { LOCAL_DEMO } from "../../lib/demoMode";
+
 import { useState, useEffect } from "react";
 import { createDemoUser, deleteDemoUser, resetDemoUserPassword, supabase } from "../../lib/supabase";
 import { usePerfilUsuario } from "../../hooks/usePerfilUsuario";
@@ -191,12 +194,14 @@ export default function UsuariosPage() {
     if (!confirmado) return;
 
     setTransferindoOrcamentos(true);
-    showAlert("Essa funcionalidade está disponível apenas em produção", { type: "info", title: "Modo demo" });
-    setTransferindoOrcamentos(false);
-    return;
+    if (!LOCAL_DEMO) {
+      showAlert("Essa funcionalidade está disponível apenas em produção", { type: "info", title: "Modo demo" });
+      setTransferindoOrcamentos(false);
+      return;
+    }
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch("/api/admin/transfer-orcamentos", {
+      const res = await demoFetch("/api/admin/transfer-orcamentos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -256,7 +261,7 @@ export default function UsuariosPage() {
       return;
       const { data: { session: _session } } = await supabase.auth.getSession();
       
-      const res = await fetch("/api/admin/delete-user", {
+      const res = await demoFetch("/api/admin/delete-user", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -295,7 +300,7 @@ export default function UsuariosPage() {
       return;
       const { data: { session: _sessionReset } } = await supabase.auth.getSession();
       
-      const res = await fetch("/api/admin/reset-password", {
+      const res = await demoFetch("/api/admin/reset-password", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -328,7 +333,7 @@ export default function UsuariosPage() {
       carregarUsuarios();
       return;
       const { data: { session: _sessionInvite } } = await supabase.auth.getSession();
-      const res = await fetch("/api/admin/invite", {
+      const res = await demoFetch("/api/admin/invite", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

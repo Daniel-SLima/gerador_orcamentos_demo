@@ -1,5 +1,7 @@
 "use client";
 
+import { printRoute, printUrl, withDemoBase } from "../lib/demoMode";
+
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import Link from "next/link";
@@ -962,7 +964,7 @@ export default function DashboardPage() {
                   {/* Botão de Ver Documento escondido até o HOVER (só desktop) */}
                   <div className="absolute inset-0 bg-white/95 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl">
                     <button
-                      onClick={() => window.open(`/imprimir/${orc.id}?action=view`, "_blank")}
+                      onClick={() => window.open(printUrl(orc.id, "view"), "_blank")}
                       className="bg-gray-900 text-white text-xs font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-transform transform scale-95 group-hover:scale-100"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
@@ -1136,7 +1138,7 @@ export default function DashboardPage() {
                       </p>
                     </div>
                     <button
-                      onClick={() => window.open(`/imprimir/${orc.id}?action=view`, "_blank")}
+                      onClick={() => window.open(printUrl(orc.id, "view"), "_blank")}
                       className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors focus:outline-none"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
@@ -1193,7 +1195,7 @@ export default function DashboardPage() {
                       <td className="py-4 px-6 text-right text-gray-900 font-bold">{formatarMoeda(orc.valor_total)}</td>
                       <td className="py-4 px-6 text-center">
                         <button
-                          onClick={() => window.open(`/imprimir/${orc.id}?action=view`, "_blank")}
+                          onClick={() => window.open(printUrl(orc.id, "view"), "_blank")}
                           className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors font-medium text-sm flex items-center justify-center mx-auto gap-2"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>

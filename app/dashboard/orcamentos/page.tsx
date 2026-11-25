@@ -1,5 +1,9 @@
 "use client";
 
+import { printRoute, printUrl, withDemoBase } from "../../lib/demoMode";
+
+import { demoFetch } from "../../lib/demoFetch";
+
 import { useState, useEffect, Suspense, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
@@ -139,7 +143,7 @@ function FormularioOrcamento() {
 
       const [resClientes, resVendedores, resProdutos] = await Promise.all([
         supabase.from("clientes").select("id, nome_razao_social").order("nome_razao_social"),
-        fetch("/api/vendedores").then(res => res.json()).then(data => ({ data: Array.isArray(data) ? data : [] })).catch(err => ({ data: [], error: err })),
+        demoFetch("/api/vendedores").then(res => res.json()).then(data => ({ data: Array.isArray(data) ? data : [] })).catch(err => ({ data: [], error: err })),
         supabase.from("produtos").select("id, descricao, valor_unitario, medidas").order("descricao")
       ]);
 
@@ -507,7 +511,7 @@ function FormularioOrcamento() {
         if (falhos.length > 0) {
           setAnexosFalhos(falhos);
           // Não redireciona — mostra os erros primeiro
-          window.open(`/imprimir/${idFinal}?action=view`, "_blank");
+          window.open(printUrl(idFinal, "view"), "_blank");
           setSalvando(false);
           return;
         }
@@ -532,7 +536,7 @@ function FormularioOrcamento() {
                 ? `Orçamento atualizado`
                 : `Novo orçamento criado`,
               mensagem: `Cliente: ${nomeCliente}`,
-              link: `/imprimir/${idFinal}?action=view`,
+              link: printRoute(idFinal),
             }));
             await supabase.from("notifications").insert(notificacoes);
           }
@@ -541,8 +545,8 @@ function FormularioOrcamento() {
         }
       }
 
-      window.open(`/imprimir/${idFinal}?action=view`, "_blank");
-      window.location.href = "/dashboard/historico";
+      window.open(printUrl(idFinal, "view"), "_blank");
+      window.location.href = withDemoBase("/dashboard/historico/");
 
     } catch (error) {
       showAlert("Erro: " + (error as Error).message, { type: "error", title: "Erro ao salvar" });

@@ -1,7 +1,9 @@
 "use client";
 
+import { LOCAL_DEMO } from "../../../lib/demoMode";
+
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../../../lib/supabase";
 import { usePerfilUsuario } from "../../../hooks/usePerfilUsuario";
 import { useAlert, useConfirm, AlertModal, ConfirmModal } from "../../../components/AlertModal";
@@ -95,6 +97,7 @@ const SETOR_COLORS: Record<string, { bg: string; border: string; text: string }>
 
 export default function ProducaoDetalhePage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { isAdmin, loadingPerfil } = usePerfilUsuario();
   const { showAlert, alertProps } = useAlert();
@@ -131,7 +134,7 @@ export default function ProducaoDetalhePage() {
   const [matItemOpId, setMatItemOpId] = useState<string | null>(null);
   const [salvandoMaterial, setSalvandoMaterial] = useState(false);
 
-  const id = params.id as string;
+  const id = LOCAL_DEMO ? searchParams.get("id") || "" : params.id as string;
 
   useEffect(() => {
     if (!loadingPerfil) {

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:pages-demo": "node scripts/build-pages-demo.mjs",
+    "test:local-demo": "node --test tests/local-demo.test.cjs"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.3.2",

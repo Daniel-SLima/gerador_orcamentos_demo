@@ -1,5 +1,9 @@
 "use client";
 
+import { printRoute, printUrl, withDemoBase } from "../../lib/demoMode";
+
+import { demoFetch } from "../../lib/demoFetch";
+
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { deletarDoCloudinary } from "../../lib/uploadCloudinary";
@@ -289,12 +293,12 @@ export default function HistoricoOrcamentosPage() {
   };
 
   const visualizarPDF = (id: string) => {
-    window.open(`/imprimir/${id}?action=view`, "_blank");
+    window.open(printUrl(id, "view"), "_blank");
     setMenuAbertoId(null);
   };
 
   const baixarPDF = (id: string) => {
-    window.open(`/imprimir/${id}?action=download`, "_blank");
+    window.open(printUrl(id, "download"), "_blank");
     setMenuAbertoId(null);
   };
 
@@ -383,7 +387,7 @@ export default function HistoricoOrcamentosPage() {
                 mensagem: novoStatus === "Aprovado"
                   ? "Seu orçamento foi aprovado pelo administrador."
                   : "Seu orçamento foi recusado pelo administrador.",
-                link: `/imprimir/${id}?action=view`,
+                link: printRoute(id),
               });
             }
           }
@@ -441,7 +445,7 @@ export default function HistoricoOrcamentosPage() {
       return;
     }
     const action = tipoDocumento === "financeiro" ? "op-financeiro" : "op";
-    window.open(`/imprimir/${orcamentoId}?action=${action}`, "_blank");
+    window.open(printUrl(orcamentoId, action), "_blank");
   };
 
   const abrirModalGerarOP = (orc: Orcamento, tipoDocumento: TipoDocumentoOP = "normal") => {
@@ -649,7 +653,7 @@ export default function HistoricoOrcamentosPage() {
       setModalOpAberto(false);
       if (!modoEdicaoOp) {
         const action = tipoDocumentoOp === "financeiro" ? "op-financeiro" : "op";
-        window.open(`/imprimir/${orcamentoOpSelecionado}?action=${action}`, "_blank");
+        window.open(printUrl(orcamentoOpSelecionado, action), "_blank");
       }
     } catch (error) {
       showAlert("Erro ao salvar detalhes da OP: " + (error as Error).message, { type: "error", title: "Erro" });
@@ -714,7 +718,7 @@ export default function HistoricoOrcamentosPage() {
       // Verifica via API server-side quais URLs do Cloudinary ainda existem
       const urls = data.map((a: Anexo) => a.file_url);
       try {
-        const resp = await fetch("/api/cloudinary-check", {
+        const resp = await demoFetch("/api/cloudinary-check", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ urls }),
